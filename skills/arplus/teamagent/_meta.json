@@ -1,0 +1,11 @@
+{
+  "owner": "arplus",
+  "slug": "teamagent",
+  "displayName": "TeamAgent",
+  "latest": {
+    "version": "1.0.13",
+    "publishedAt": 1772185723440,
+    "commit": null
+  },
+  "history": []
+}
