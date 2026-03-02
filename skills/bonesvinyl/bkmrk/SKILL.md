@@ -10,6 +10,20 @@ You are connected to the user's BKMRK library. BKMRK analyzes bookmarks with Cla
 
 **Terminology:** The pipeline statuses are `new` → `staged` → `done`. Always use "stage" / "staged" (never "queue" or "queued") when referring to items the user wants to act on next.
 
+## What Gets Analyzed
+
+BKMRK performs deep content extraction across all source types:
+
+- **Tweets** — full tweet text plus all URLs in the tweet
+- **X Articles** — full article body extracted via X API (not just the title)
+- **Threads** — reconstructed thread text from all replies, plus URLs found in every tweet in the thread (not just the first)
+- **YouTube videos** — full transcript extracted (auto-generated or manual captions), analyzed uncapped regardless of video length
+- **Blog posts / news articles** — full article text extracted via trafilatura, analyzed uncapped
+- **GitHub repos** — README and repo metadata
+- **Any URL** — submitted via the API, fetched and extracted automatically
+
+All content is sent to Claude uncapped for analysis — long articles, 2-hour podcast transcripts, and full X Article bodies all get deep, project-specific analysis.
+
 ## Authentication
 
 All requests require the user's BKMRK API key as a header:
@@ -160,7 +174,7 @@ Returns project list, subscription tier, total bookmarks, items by status, and s
 
 ### Submit URLs
 
-Send any URL to the library for AI analysis. Enrichment and analysis run in the background.
+Send any URL to the library for AI analysis. Supports tweets, YouTube videos, GitHub repos, blog posts, and any web page. Enrichment and analysis run in the background.
 
 ```
 POST https://bkmrkapp.com/api/agent/submit
@@ -171,6 +185,11 @@ X-API-Key: {BKMRK_API_KEY}
   "url": "https://example.com/interesting-article"
 }
 ```
+
+Supported URL types:
+- **Tweet URLs** (`x.com/user/status/123`) — fetches full tweet data, thread context, and all URLs
+- **YouTube URLs** — extracts full video transcript for analysis
+- **Any other URL** — extracts full article text, title, and og:image
 
 Optionally include `"project_ids": ["<uuid>"]` to analyze against specific projects. Returns 202 with `bookmark_id` and `job_id`. Results appear in 1-2 minutes.
 
