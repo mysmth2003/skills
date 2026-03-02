@@ -10,7 +10,7 @@
         "kind": "cron",
         "expr": "0 20 * * *"
       },
-      "sessionTarget": "leader",
+      "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
@@ -32,12 +32,34 @@
         "kind": "cron",
         "expr": "0 20 * * 0"
       },
-      "sessionTarget": "leader",
+      "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
         "message": "Weekly review: 1) Check shared/ files for outdated information. 2) Review agent performance from this week. 3) Check for stale PENDING APPROVAL items. 4) Update MEMORY.md with weekly summary. 5) Flag knowledge gaps. Deliver report to Operations topic.",
         "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "channel",
+        "channel": "{{OPERATIONS_CHANNEL}}",
+        "accountId": ""
+      }
+    },
+    {
+      "id": "stale-task-check",
+      "name": "stale-task-check",
+      "description": "Check SCRATCH.md for stale dispatched tasks and recover lost agent responses",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "*/10 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Stale task check: Read SCRATCH.md. For any task step in [⏳] state, run sessions_history on that agent to check if they completed. If completed, extract the result and continue the task flow. If not completed and waiting longer than 10 minutes, send a non-blocking status check. Report findings to Operations topic only if action was taken.",
+        "timeoutSeconds": 60
       },
       "delivery": {
         "mode": "channel",
