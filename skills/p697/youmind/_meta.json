@@ -1,13 +1,18 @@
 {
   "owner": "p697",
   "slug": "youmind",
-  "displayName": "Youmind",
+  "displayName": "Youmind Skill",
   "latest": {
-    "version": "1.2.0",
-    "publishedAt": 1772077167675,
-    "commit": "https://github.com/openclaw/skills/commit/7a7c487edb718f61d9f204e862306d9b6466ad45"
+    "version": "1.3.0",
+    "publishedAt": 1772458406673,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.2.0",
+      "publishedAt": 1772077167675,
+      "commit": "https://github.com/openclaw/skills/commit/7a7c487edb718f61d9f204e862306d9b6466ad45"
+    },
     {
       "version": "1.1.0",
       "publishedAt": 1772027830413,
