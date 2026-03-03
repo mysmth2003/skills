@@ -67,10 +67,29 @@ def save_state(state):
     with open(state_path, 'w') as f:
         json.dump(state, f, indent=2)
 
+def is_cn_stock(symbol):
+    """判断是否是 A 股（.SS 或 .SZ 后缀）"""
+    return symbol.endswith(".SS") or symbol.endswith(".SZ")
+
+def is_hk_stock(symbol):
+    """判断是否是港股（.HK 后缀）"""
+    return symbol.endswith(".HK")
+
+def is_cn_hk_market_open():
+    """判断 A 股/港股是否已开盘（9:30 后）"""
+    now = datetime.now()
+    # A 股/港股开盘时间：9:30 AM (北京时间)
+    market_open_time = now.replace(hour=9, minute=30, second=0, microsecond=0)
+    return now >= market_open_time
+
 def check_stock(name, config):
     symbol = config["symbol"]
     base = config["base_price"]
     currency = config["currency"]
+    
+    # A 股/港股 9:30 前跳过（竞价阶段波动大）
+    if (is_cn_stock(symbol) or is_hk_stock(symbol)) and not is_cn_hk_market_open():
+        return None
     
     price = get_price(symbol)
     if not price:
