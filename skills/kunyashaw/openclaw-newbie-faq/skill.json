@@ -1,0 +1,33 @@
+{
+  "name": "openclaw-newbie-faq",
+  "version": "1.0.24",
+  "displayName": "openclaw新手帮帮忙",
+  "description": "为刚接触 OpenCLAW 的新手提供完整指南。安装后请说\"启动新手帮助\"来启动34567端口的Web服务",
+  "author": "OpenCLAW Community",
+  "tags": [
+    "openclaw",
+    "newbie",
+    "faq",
+    "guide",
+    "tutorial"
+  ],
+  "homepage": "https://github.com/openclaw/skill-newbie-faq",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "openclaw",
+    "newbie",
+    "faq",
+    "guide",
+    "tutorial",
+    "ai",
+    "llm"
+  ]
+}
