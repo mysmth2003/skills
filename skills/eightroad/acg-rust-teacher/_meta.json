@@ -1,0 +1,11 @@
+{
+  "owner": "eightroad",
+  "slug": "acg-rust-teacher",
+  "displayName": "ACG-Rust 教学工具",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1772466182418,
+    "commit": null
+  },
+  "history": []
+}
