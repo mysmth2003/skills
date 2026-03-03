@@ -3,9 +3,15 @@
   "slug": "free-search-aggregator",
   "displayName": "Free Search Aggregator",
   "latest": {
-    "version": "0.2.3",
-    "publishedAt": 1772321483730,
-    "commit": "https://github.com/openclaw/skills/commit/154e69ec2d1a6921aab7af78f929df18ddebab01"
+    "version": "1.2.1",
+    "publishedAt": 1772495666391,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "0.2.3",
+      "publishedAt": 1772321483730,
+      "commit": "https://github.com/openclaw/skills/commit/154e69ec2d1a6921aab7af78f929df18ddebab01"
+    }
+  ]
 }
