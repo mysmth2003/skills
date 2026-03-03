@@ -3,9 +3,15 @@
   "slug": "shop-product-search",
   "displayName": "Shop Product Search",
   "latest": {
-    "version": "0.0.5",
-    "publishedAt": 1772475107119,
-    "commit": "https://github.com/openclaw/skills/commit/fbba27e84448d9cb425b5930c232fb9e80ede7c5"
+    "version": "0.0.7",
+    "publishedAt": 1772497879176,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "0.0.5",
+      "publishedAt": 1772475107119,
+      "commit": "https://github.com/openclaw/skills/commit/fbba27e84448d9cb425b5930c232fb9e80ede7c5"
+    }
+  ]
 }

@@ -30,7 +30,7 @@ GET https://shop.app/web/api/catalog/search?query={query}
 
 ### Response
 
-Returns product information including title, price, description, shop, images, features, specs, variant options, variant IDs, and checkout URLs. Each product includes an `id`.
+Returns product information in markdown including title, price, description, shop, images, features, specs, variant options, variant IDs, and checkout URLs. Each product includes an `id`.
 
 Each product lists all available options (every color, size, etc.) but only includes up to 10 variants with IDs. If the user wants a combination not in the variant list, link them to the product page.
 
@@ -85,6 +85,7 @@ Only use information you already have — don't ask just to pre-fill.
 
 - Default to linking the product page URL so the user can browse variants and add to cart on their own terms.
 - Use checkout URLs when the user explicitly wants to buy right now.
+- Follow presenting results below on guidelines per messenger platform.
 - **Never imply the purchase is complete.** The user clicks through and pays on the store's site.
 
 ---
@@ -92,18 +93,23 @@ Only use information you already have — don't ask just to pre-fill.
 ## Presenting Results
 
 For each product, include when available:
-- **Image**
-- **Product name** (with brand)
-- **Price** (already formatted)
-- **Rating and review count**
-- **Key differentiating feature** (one sentence from actual product data)
-- **Link** (product page URL for browsing, checkout URL for direct purchase)
+- Image
+- Product name (with brand)
+- Price (already formatted)
+- Rating and review count
+- Key differentiating feature** (one sentence from actual product data)
+- Link (product page URL for browsing, checkout URL for direct purchase)
 
-Use formatting below for advice per platform.
+Always consult formatting below for advice per platform. 
 
 Show price ranges when min != max. Mention available options briefly: "Available in 6 colors and sizes S-XXL."
 
-Use best judgement for the platform. Unless the user specifies otherwise, follow this guidance:
+When responding via Telegram / WhatsApp / messaging platforms:
+- Use the `message` tool for all communications
+- Do not include inline assistant text in your response
+- End with "NO_REPLY" as your final text content
+
+Unless the user specifies otherwise, follow this guidance:
 
 **Telegram** — Always use the message tool with `media` for product image and `caption` with inline markdown links. Format: **bold title**, price, rating, brief feature. End with [View Product](url) • [Buy Now](url) links.
 
@@ -112,7 +118,7 @@ example:
 await message({
   media: "image.jpg",
   caption: `**Pro Earbuds**
-💰 $49.99 | ⭐ 4.6/5
+$49.99 | ⭐ 4.6/5
 
 Wireless earbuds with 8-hour battery, deep bass boost.
 
@@ -121,7 +127,7 @@ Wireless earbuds with 8-hour battery, deep bass boost.
 
 **WhatsApp** — Send product image as media message, followed by an interactive message with bold title, price, rating, short description. Use button templates for "View Store" and "Buy Now" links.
 
-**iMessage** — No markdown. iMessage renders plain text only — no bold, no italics, no `[link](url)` syntax. Send the product page URL as a bare link on its own line so iOS generates a rich link preview.
+**iMessage** — Do not use markdown. iMessage renders plain text only — no bold, no italics, no `[link](url)` syntax. Send the product page URL as a bare link on its own line so iOS generates a rich link preview. Always include an image if there is one.
 
 ### Virtual Try-On / Visualization
 
