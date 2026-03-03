@@ -1,0 +1,11 @@
+{
+  "owner": "jisuapi",
+  "slug": "bankcard",
+  "displayName": "极速数据银行卡归属地查询",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1772521566228,
+    "commit": null
+  },
+  "history": []
+}
