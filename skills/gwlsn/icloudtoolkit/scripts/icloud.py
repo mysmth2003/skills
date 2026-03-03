@@ -1812,72 +1812,6 @@ def run_self_test():
     print("All tests passed!")
 
 
-# --- Heartbeat management ---
-
-
-def cmd_heartbeat_enable(args, config):
-    """Add the heartbeat cron job (every 5 minutes)."""
-    skill_dir = Path(__file__).resolve().parent.parent
-    cron_script = skill_dir / "scripts" / "heartbeat-cron.py"
-    cron_line = f"*/5 * * * * /usr/bin/python3 {cron_script}"
-    marker = "icloud-toolkit/scripts/heartbeat-cron.py"
-
-    # Read existing crontab
-    result = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
-    existing = result.stdout if result.returncode == 0 else ""
-
-    if marker in existing:
-        print("Heartbeat cron is already enabled.")
-        return
-
-    # Append the new line
-    new_crontab = existing.rstrip("\n") + "\n" + cron_line + "\n"
-    subprocess.run(["crontab", "-"], input=new_crontab, text=True, check=True)
-    print(f"Heartbeat cron enabled: {cron_line}")
-
-
-def cmd_heartbeat_disable(args, config):
-    """Remove the heartbeat cron job."""
-    marker = "icloud-toolkit/scripts/heartbeat-cron.py"
-
-    result = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
-    if result.returncode != 0 or marker not in result.stdout:
-        print("Heartbeat cron is not enabled.")
-        return
-
-    # Filter out the heartbeat line
-    lines = [l for l in result.stdout.splitlines() if marker not in l]
-    new_crontab = "\n".join(lines) + "\n" if lines else ""
-    subprocess.run(["crontab", "-"], input=new_crontab, text=True, check=True)
-    print("Heartbeat cron disabled.")
-
-
-def cmd_heartbeat_status(args, config):
-    """Show heartbeat cron and state info."""
-    marker = "icloud-toolkit/scripts/heartbeat-cron.py"
-
-    # Check crontab
-    result = subprocess.run(["crontab", "-l"], capture_output=True, text=True)
-    cron_active = result.returncode == 0 and marker in result.stdout
-    print(f"Cron: {'enabled' if cron_active else 'disabled'}")
-
-    # Check state file
-    skill_dir = Path(__file__).resolve().parent.parent
-    state_file = skill_dir / "state" / "heartbeat-state.json"
-    if state_file.exists():
-        try:
-            with open(state_file) as f:
-                state = json.load(f)
-            last_run = state.get("last_fetch", "unknown")
-            notified = len(state.get("notified_ids", []))
-            print(f"Last run: {last_run}")
-            print(f"Notified IDs tracked: {notified}")
-        except (json.JSONDecodeError, OSError):
-            print("State file exists but is unreadable.")
-    else:
-        print("State: never run")
-
-
 # --- CLI ---
 
 def build_parser():
@@ -2047,13 +1981,6 @@ def build_parser():
 
     setup_sub.add_parser("verify", help="Run verification against current config")
 
-    # Heartbeat
-    hb_parser = subparsers.add_parser("heartbeat", help="Email notification heartbeat")
-    hb_sub = hb_parser.add_subparsers(dest="hb_command")
-    hb_sub.add_parser("enable", help="Enable heartbeat cron job")
-    hb_sub.add_parser("disable", help="Disable heartbeat cron job")
-    hb_sub.add_parser("status", help="Show heartbeat status")
-
     return parser
 
 
@@ -2094,19 +2021,6 @@ def main():
             from setup import cmd_setup_verify
             cmd_setup_verify(args, script_dir)
             return
-
-    if args.command == "heartbeat":
-        hb_cmd = getattr(args, "hb_command", None)
-        if not hb_cmd:
-            print("Usage: icloud.py heartbeat {enable|disable|status}")
-            return
-        handlers = {
-            "enable": cmd_heartbeat_enable,
-            "disable": cmd_heartbeat_disable,
-            "status": cmd_heartbeat_status,
-        }
-        handlers[hb_cmd](args, None)
-        return
 
     if not config_path.exists():
         print("SETUP_REQUIRED")

@@ -74,11 +74,6 @@ python3 $ICLOUD contact edit <uid> --add-email new@x.com
 python3 $ICLOUD contact edit <uid> --first Jane --last Smith
 python3 $ICLOUD contact delete <uid>
 python3 $ICLOUD contact sync
-
-# Heartbeat
-python3 $ICLOUD heartbeat enable                              # Add cron job
-python3 $ICLOUD heartbeat disable                             # Remove cron job
-python3 $ICLOUD heartbeat status                              # Show status + last run
 ```
 
 ## Calendar
@@ -155,14 +150,6 @@ python3 $ICLOUD contact edit <uid> --org "New Corp" --title "Manager"
 ## Email notifications (heartbeat)
 
 `scripts/heartbeat-cron.py` checks for new unread iCloud emails every 5 minutes and sends triage prompts to the agent.
-
-```bash
-python3 $ICLOUD heartbeat enable              # Add cron job
-python3 $ICLOUD heartbeat disable             # Remove cron job
-python3 $ICLOUD heartbeat status              # Show cron + last run info
-```
-
-Manual run (outside cron):
 
 ```bash
 python3 scripts/heartbeat-cron.py             # Normal run
