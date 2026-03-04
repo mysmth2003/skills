@@ -43,11 +43,12 @@ All controls are passed in the `controls` object of `POST /social-posts`.
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `facebookContentType` | string | `POST` | `POST`, `REEL`, `STORY` |
+| `facebookReelsCollaborators` | string[] | `[]` | Facebook usernames for Reel collaboration |
 
 **Content types:**
-- **POST**: Permanent feed content. Up to 10 images OR 1 video. Text limit: 63,206 chars
-- **REEL**: Short-form vertical video
-- **STORY**: 24-hour temporary content
+- **POST**: Permanent feed content. Up to 10 images OR 1 video (not mixed). Text limit: 63,206 chars
+- **REEL**: Short-form vertical video, 1 video only
+- **STORY**: 24-hour temporary content, 1 image or 1 video
 
 **Media notes:**
 - Images: JPG/PNG, ≤30MB each, up to 10 per post
@@ -63,9 +64,10 @@ All controls are passed in the `controls` object of `POST /social-posts`.
 | `youtubePlaylistId` | string | — | Add to playlist after publishing. Get IDs from `GET /social-media/{id}/youtube-playlists` |
 | `youtubeMadeForKids` | boolean | `false` | COPPA compliance flag |
 | `youtubeTags` | string[] | `[]` | Video tags |
+| `youtubeCategoryId` | string | — | YouTube category ID |
 
 **Media notes:**
-- Shorts: up to 3 minutes (as of Oct 2024), 9:16 or 1:1
+- Shorts: up to 3 minutes, 9:16 or 1:1
 - Copyrighted music limits Shorts to 60 seconds
 - H.264 video codec with AAC audio recommended
 
@@ -90,13 +92,19 @@ All controls are passed in the `controls` object of `POST /social-posts`.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `xQuoteTweetUrl` | string | — | URL of tweet to quote. Accepts x.com, twitter.com, mobile.twitter.com |
+| `xQuoteTweetUrl` | string | — | URL of tweet to quote with your own commentary. Supports content and media attachments |
+| `xRetweetUrl` | string | — | URL of tweet to retweet without changes. Content and media are ignored |
+| `xCommunityId` | string | — | Community ID for posting to an X Community |
 
-**Notes:**
+**URL formats accepted:** `x.com`, `twitter.com`, `mobile.twitter.com`. Example: `https://x.com/username/status/1234567890`
+
+**Important:**
+- Cannot use `xQuoteTweetUrl` and `xRetweetUrl` together — pick one
+- Quote tweets support your own content + media attachments
+- Retweets share the original tweet — any content/media provided will be ignored
 - Character limit: 280
 - Up to 4 images per post
-- Cannot use `xQuoteTweetUrl` and retweet together
-- Quoted tweet must be public
+- **API limit: 5 posts per account per day** — exceeding risks account restrictions
 
 ## Pinterest
 
@@ -131,3 +139,12 @@ No platform-specific controls.
 **Notes:**
 - Text + images + video supported
 - Carousels: up to 10 images
+
+## Telegram
+
+No platform-specific controls.
+
+**Notes:**
+- Character limit: 4,096
+- Up to 10 images, videos, or mixed media per post
+- Supports channels and groups
